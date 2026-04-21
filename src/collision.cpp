@@ -56,14 +56,14 @@ bool Collision::canMove(const Board& board, const Piece& piece, int dx, int dy) 
 }
 
 bool Collision::canRotate(const Board& board, const Piece& piece) {
-    // 尝试在原位置旋转 / Try rotation at current position
-    Piece rotated = piece;
-    rotated.rotation = (rotated.rotation + 1) % 4;
-    if (!check(board, rotated)) {
-        return true;  // 成功 / success
-    }
+    // 使用getRotatedPiece检查，不相等说明可以旋转
+    // Use getRotatedPiece, if not equal means rotation succeeded
+    return getRotatedPiece(board, piece).rotation != piece.rotation ||
+           (getRotatedPiece(board, piece).x == piece.x && getRotatedPiece(board, piece).y == piece.y);
+}
 
-    // 墙踢：尝试偏移位置 / Wall kick: try offset positions
+Piece Collision::getRotatedPiece(const Board& board, const Piece& piece) {
+    // 选择墙踢表 / Select wall kick table
     const int (*kicks)[2];
     if (piece.type == PieceType::I) {
         kicks = WALL_KICK_I;
@@ -71,18 +71,23 @@ bool Collision::canRotate(const Board& board, const Piece& piece) {
         kicks = WALL_KICK_JLSTZ;
     }
 
-    // 从1开始，0已在上面测试过 / Start from 1, 0 was tested above
-    for (int i = 1; i < 8; ++i) {
-        rotated = piece;
+    // 尝试原位置和所有墙踢偏移 / Try original position and all wall kick offsets
+    for (int i = 0; i < 8; ++i) {
+        Piece rotated = piece;
         rotated.rotation = (rotated.rotation + 1) % 4;
         rotated.x += kicks[i][0];
         rotated.y += kicks[i][1];
+
         if (!check(board, rotated)) {
-            return true;  // 墙踢成功 / wall kick success
+            return rotated;  // 成功返回旋转后的方块 / Return rotated piece on success
         }
     }
 
-    return false;  // 所有尝试均失败 / all attempts failed
+    // 所有尝试均失败，返回原方块（旋转状态会改变，但位置不变）
+    // All attempts failed, return original piece (rotation changes but position stays)
+    Piece result = piece;
+    result.rotation = (piece.rotation + 1) % 4;
+    return result;
 }
 
 int Collision::getGhostY(const Board& board, const Piece& piece) {

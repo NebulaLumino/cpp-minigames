@@ -55,6 +55,7 @@ make
 | `↑` | Rotate | 旋转 |
 | `↓` | Soft drop (+1 point/cell) | 软降（加速下落，每格+1分）|
 | `Space` | Hard drop (+2 points/cell) | 硬降（直接落底，每格+2分）|
+| `P` | Pause/Resume | 暂停/继续 |
 | `Q` | Quit | 退出 |
 
 ## Scoring / 计分规则

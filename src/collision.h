@@ -68,6 +68,15 @@ public:
     static bool canRotate(const Board& board, const Piece& piece);
 
     /**
+     * @brief 获取旋转后的方块（含墙踢偏移）
+     * @param board 棋盘引用 / Board reference
+     * @param piece 方块引用 / Piece reference
+     * @return 旋转并应用墙踢后的方块，如果失败返回原方块
+     * @note 建议先调用canRotate()检查是否可以旋转
+     */
+    static Piece getRotatedPiece(const Board& board, const Piece& piece);
+
+    /**
      * @brief 计算幽灵方块的Y位置（落点）
      * @param board 棋盘引用 / Board reference
      * @param piece 方块引用 / Piece reference

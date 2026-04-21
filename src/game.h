@@ -22,6 +22,7 @@
  */
 enum class GameState {
     PLAYING,    /**< 游戏进行中 / Game in progress */
+    PAUSED,     /**< 游戏暂停 / Game paused */
     GAME_OVER   /**< 游戏结束 / Game over */
 };
 

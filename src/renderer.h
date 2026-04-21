@@ -75,6 +75,7 @@ public:
     bool getMoveDown() const { return moveDown_; }
     bool getRotate() const { return rotate_; }
     bool getHardDrop() const { return hardDrop_; }
+    bool getPause() const { return pause_; }
 
     /**
      * @brief 重置输入状态 / Resets input state
@@ -84,9 +85,10 @@ public:
 private:
     bool isOpen_;                  /**< 渲染器是否打开 / Whether renderer is open */
     bool shouldClose_;            /**< 是否请求关闭 / Whether close was requested */
-    bool moveLeft_, moveRight_;    /**< 左右移动输入 / Left/right movement input */
-    bool moveDown_;               /**< 软降输入 / Soft drop input */
+    bool moveLeft_, moveRight_;   /**< 左右移动输入 / Left/right movement input */
+    bool moveDown_;              /**< 软降输入 / Soft drop input */
     bool rotate_;                 /**< 旋转输入 / Rotate input */
-    bool hardDrop_;               /**< 硬降输入 / Hard drop input */
-    int inputChar_;               /**< 当前输入字符 / Current input character */
+    bool hardDrop_;              /**< 硬降输入 / Hard drop input */
+    bool pause_;                 /**< 暂停输入 / Pause input */
+    int inputChar_;              /**< 当前输入字符 / Current input character */
 };

@@ -39,6 +39,7 @@ Renderer::Renderer()
     , shouldClose_(false)
     , moveLeft_(false), moveRight_(false)
     , moveDown_(false), rotate_(false), hardDrop_(false)
+    , pause_(false)
     , inputChar_(0) {
 
     // ncurses初始化 / ncurses initialization
@@ -198,6 +199,8 @@ void Renderer::draw(const Board& board, const Piece& currentPiece,
         } else if (y == 17) {
             mvprintw(by + 1 + y, sideX, "v   Drop");
         } else if (y == 18) {
+            mvprintw(by + 1 + y, sideX, "P   Pause");
+        } else if (y == 19) {
             mvprintw(by + 1 + y, sideX, "Q   Quit");
         }
     }
@@ -214,7 +217,7 @@ void Renderer::draw(const Board& board, const Piece& currentPiece,
 }
 
 void Renderer::processEvents() {
-    moveLeft_ = moveRight_ = moveDown_ = rotate_ = hardDrop_ = false;
+    moveLeft_ = moveRight_ = moveDown_ = rotate_ = hardDrop_ = pause_ = false;
     shouldClose_ = false;
 
     int ch = getch();
@@ -226,6 +229,8 @@ void Renderer::processEvents() {
             case KEY_DOWN:  moveDown_ = true; break;
             case KEY_UP:    rotate_ = true; break;
             case ' ':       hardDrop_ = true; break;
+            case 'p':
+            case 'P':      pause_ = true; break;
             case 'q':
             case 'Q':
             case 27:        shouldClose_ = true; break;  // ESC键 / ESC key
@@ -234,5 +239,5 @@ void Renderer::processEvents() {
 }
 
 void Renderer::resetInputs() {
-    moveLeft_ = moveRight_ = moveDown_ = rotate_ = hardDrop_ = false;
+    moveLeft_ = moveRight_ = moveDown_ = rotate_ = hardDrop_ = pause_ = false;
 }

@@ -30,6 +30,15 @@ void Game::run() {
 
         if (renderer_.shouldClose()) break;
 
+        // 处理暂停切换 / Handle pause toggle
+        if (renderer_.getPause()) {
+            if (state_ == GameState::PLAYING) {
+                state_ = GameState::PAUSED;
+            } else if (state_ == GameState::PAUSED) {
+                state_ = GameState::PLAYING;
+            }
+        }
+
         // 游戏结束时按任意键重新开始 / Restart on any key when game over
         if (state_ == GameState::GAME_OVER) {
             renderer_.draw(board_, currentPiece_, nextPiece_, score_, level_);
@@ -46,6 +55,15 @@ void Game::run() {
                 nextPiece_ = PieceManager::createRandomPiece();
                 state_ = GameState::PLAYING;
             }
+            renderer_.resetInputs();
+            continue;
+        }
+
+        // 暂停时不处理输入和更新 / Skip input and update when paused
+        if (state_ == GameState::PAUSED) {
+            renderer_.draw(board_, currentPiece_, nextPiece_, score_, level_);
+            renderer_.resetInputs();
+            std::this_thread::sleep_for(std::chrono::milliseconds(16));
             continue;
         }
 
@@ -61,7 +79,7 @@ void Game::handleInput() {
     // 左右移动 / Left/Right movement
     if (renderer_.getMoveLeft() && Collision::canMove(board_, currentPiece_, -1, 0)) {
         currentPiece_.x--;
-        if (isLocking_) lockTimer_ = 0.0f;  // 成功移动重置锁定计时器 / Successful move resets lock timer
+        if (isLocking_) lockTimer_ = 0.0f;
     }
     if (renderer_.getMoveRight() && Collision::canMove(board_, currentPiece_, 1, 0)) {
         currentPiece_.x++;
@@ -78,26 +96,19 @@ void Game::handleInput() {
     // 旋转（含墙踢）/ Rotation with wall kick
     if (renderer_.getRotate() && Collision::canRotate(board_, currentPiece_)) {
         Piece original = currentPiece_;
-        currentPiece_.rotation = (currentPiece_.rotation + 1) % 4;
+        currentPiece_ = Collision::getRotatedPiece(board_, currentPiece_);
 
-        // 尝试墙踢偏移 / Try wall kick offsets
-        const int (*kicks)[2] = (currentPiece_.type == PieceType::I) ? WALL_KICK_I : WALL_KICK_JLSTZ;
+        // 如果位置变了说明墙踢成功，否则检查是否只是旋转成功
+        // If position changed, wall kick succeeded; otherwise check if rotation alone succeeded
+        bool positionChanged = (currentPiece_.x != original.x || currentPiece_.y != original.y);
+        bool rotationChanged = (currentPiece_.rotation != original.rotation);
 
-        bool rotated = false;
-        for (int i = 0; i < 8; ++i) {
-            Piece test = currentPiece_;
-            test.x += kicks[i][0];
-            test.y += kicks[i][1];
-            if (!Collision::check(board_, test)) {
-                currentPiece_ = test;
-                rotated = true;
-                break;
-            }
+        if (rotationChanged && !positionChanged) {
+            // 旋转了但位置没变，可能碰撞了，恢复原状
+            // Rotated but position unchanged, might have collision, restore
+            currentPiece_ = original;
         }
 
-        if (!rotated) {
-            currentPiece_ = original;  // 旋转失败，恢复原状 / Restore if rotation failed
-        }
         if (isLocking_) lockTimer_ = 0.0f;
     }
 
