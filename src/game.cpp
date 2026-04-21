@@ -41,9 +41,24 @@ void Game::run() {
             }
         }
 
-        // 游戏结束时按任意键重新开始 / Restart on any key when game over
+        // 游戏结束时显示画面并等待重启 / Show game over screen and wait for restart
         if (state_ == GameState::GAME_OVER) {
-            renderer_.draw(board_, currentPiece_, nextPiece_, score_, level_);
+            // 创建一个空方块来隐藏它（避免glitch）
+            // Create an empty piece to hide it (to avoid glitch)
+            Piece emptyPiece;
+            emptyPiece.type = currentPiece_.type;  // 保持颜色以便UI一致 / Keep color for UI consistency
+            emptyPiece.x = -10;  // 移出屏幕 / Move off screen
+            emptyPiece.y = -10;
+            emptyPiece.rotation = 0;
+
+            renderer_.draw(board_, emptyPiece, nextPiece_, score_, level_);
+
+            // 在棋盘中央显示GAME OVER
+            // Draw GAME OVER on top of board
+            int centerX = (renderer_.getMaxX() - 11) / 2;
+            int centerY = (renderer_.getMaxY() - 20) / 2 + 10;
+            renderer_.drawGameOver(centerX, centerY);
+
             if (renderer_.getHardDrop()) {
                 // 重置游戏 / Reset game
                 board_.clear();

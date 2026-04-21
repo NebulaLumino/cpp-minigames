@@ -38,7 +38,8 @@ Renderer::Renderer()
     , moveLeft_(false), moveRight_(false)
     , moveDown_(false), rotate_(false), hardDrop_(false)
     , pause_(false)
-    , inputChar_(0) {
+    , inputChar_(0)
+    , maxX_(0), maxY_(0) {
 
     // ncurses初始化 / ncurses initialization
     initscr();
@@ -73,8 +74,9 @@ void Renderer::draw(const Board& board, const Piece& currentPiece,
     clear();
 
     // 获取终端尺寸 / Get terminal size
-    int maxY, maxX;
-    getmaxyx(stdscr, maxY, maxX);
+    getmaxyx(stdscr, maxY_, maxX_);
+    int maxY = maxY_;
+    int maxX = maxX_;
 
     // 计算棋盘尺寸（每格2字符宽）/ Calculate board dimensions (2 chars per cell)
     int boardWidth = BOARD_WIDTH * 2 + 2;   // +2 for borders
@@ -238,4 +240,30 @@ void Renderer::processEvents() {
 
 void Renderer::resetInputs() {
     moveLeft_ = moveRight_ = moveDown_ = rotate_ = hardDrop_ = pause_ = false;
+}
+
+int Renderer::getMaxX() const {
+    return maxX_;
+}
+
+int Renderer::getMaxY() const {
+    return maxY_;
+}
+
+void Renderer::drawGameOver(int x, int y) {
+    // 保存当前属性 / Save current attributes
+    int savedX, savedY;
+    getyx(stdscr, savedY, savedX);
+
+    // 绘制半透明背景覆盖游戏区域
+    // Draw semi-transparent background over game area
+    attron(A_REVERSE);
+    mvprintw(y, x, "   GAME OVER   ");
+    attroff(A_REVERSE);
+
+    mvprintw(y + 2, x - 3, "Press SPACE to restart");
+
+    // 恢复光标位置 / Restore cursor position
+    move(savedY, savedX);
+    refresh();
 }

@@ -71,6 +71,18 @@ public:
     bool isOpen() const { return isOpen_; }
 
     /**
+     * @brief 获取终端宽度
+     * @brief Gets terminal width
+     */
+    int getMaxX() const;
+
+    /**
+     * @brief 获取终端高度
+     * @brief Gets terminal height
+     */
+    int getMaxY() const;
+
+    /**
      * @brief 处理输入事件
      * @brief Processes input events
      */
@@ -91,6 +103,14 @@ public:
     bool getPause()      const { return pause_; }
 
     /**
+     * @brief 绘制GAME OVER画面
+     * @brief Draws GAME OVER screen
+     * @param x 居中X坐标 / Center X coordinate
+     * @param y 居中Y坐标 / Center Y coordinate
+     */
+    void drawGameOver(int x, int y);
+
+    /**
      * @brief 重置输入状态
      * @brief Resets input state
      */
@@ -105,4 +125,6 @@ private:
     bool hardDrop_;               /**< 硬降输入 / Hard drop input */
     bool pause_;                 /**< 暂停输入 / Pause input */
     int inputChar_;               /**< 当前输入字符 / Current input character */
+    int maxX_;                   /**< 终端宽度 / Terminal width */
+    int maxY_;                   /**< 终端高度 / Terminal height */
 };
