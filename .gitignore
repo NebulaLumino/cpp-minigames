@@ -1,0 +1,17 @@
+# Build directory / 构建目录
+build/
+
+# Compiled binary / 编译产物
+*.o
+*.a
+*.out
+
+# IDE files / IDE文件
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files / 系统文件
+.DS_Store
+Thumbs.db
