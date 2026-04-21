@@ -1,9 +1,11 @@
 /**
+ * =============================================================================
  * @file collision.cpp
  * @brief 碰撞检测实现 / Collision Detection Implementation
+ * =============================================================================
  *
- * @author NebulaLumino
- * @date 2026
+ * @author  NebulaLumino
+ * @date    2026
  */
 
 #include "collision.h"
@@ -14,7 +16,7 @@
 // 格式: {dx, dy} - 从原位置测试的偏移量
 // Format: {dx, dy} - offset from original position to test
 
-/** J/L/S/T/Z型方块墙踢偏移表（8组偏移）/ Wall kick offset table for J/L/S/T/Z (8 offset pairs) */
+/** J/L/S/T/Z型方块墙踢偏移表（8组偏移）/ Wall kick table for J/L/S/T/Z pieces */
 const int WALL_KICK_JLSTZ[8][2] = {
     { 0,  0},   // 原位置 / original position
     { 0, -1},   // 上 / up
@@ -26,7 +28,7 @@ const int WALL_KICK_JLSTZ[8][2] = {
     {-1,  1}    // 左下 / down-left
 };
 
-/** I型方块墙踢偏移表（8组偏移）/ Wall kick offset table for I piece (8 offset pairs) */
+/** I型方块墙踢偏移表（8组偏移）/ Wall kick table for I piece */
 const int WALL_KICK_I[8][2] = {
     { 0,  0},   // 原位置 / original position
     { 0, -2},   // 上2格 / up 2
@@ -56,10 +58,12 @@ bool Collision::canMove(const Board& board, const Piece& piece, int dx, int dy) 
 }
 
 bool Collision::canRotate(const Board& board, const Piece& piece) {
-    // 使用getRotatedPiece检查，不相等说明可以旋转
-    // Use getRotatedPiece, if not equal means rotation succeeded
-    return getRotatedPiece(board, piece).rotation != piece.rotation ||
-           (getRotatedPiece(board, piece).x == piece.x && getRotatedPiece(board, piece).y == piece.y);
+    // getRotatedPiece已经处理了所有墙踢偏移
+    // 如果返回的piece与原piece不同（rotation改变），说明旋转成功
+    // getRotatedPiece handles all wall kick offsets
+    // If returned piece differs from original (rotation changed), rotation succeeded
+    Piece rotated = getRotatedPiece(board, piece);
+    return rotated.rotation != piece.rotation;
 }
 
 Piece Collision::getRotatedPiece(const Board& board, const Piece& piece) {

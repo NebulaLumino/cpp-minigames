@@ -1,9 +1,11 @@
 /**
+ * =============================================================================
  * @file game.cpp
  * @brief 游戏主逻辑实现 / Game Main Logic Implementation
+ * =============================================================================
  *
- * @author NebulaLumino
- * @date 2026
+ * @author  NebulaLumino
+ * @date    2026
  */
 
 #include "game.h"
@@ -79,17 +81,17 @@ void Game::handleInput() {
     // 左右移动 / Left/Right movement
     if (renderer_.getMoveLeft() && Collision::canMove(board_, currentPiece_, -1, 0)) {
         currentPiece_.x--;
-        if (isLocking_) lockTimer_ = 0.0f;
+        if (isLocking_) lockTimer_ = 0.0f;  // 成功移动重置锁定计时器
     }
     if (renderer_.getMoveRight() && Collision::canMove(board_, currentPiece_, 1, 0)) {
         currentPiece_.x++;
         if (isLocking_) lockTimer_ = 0.0f;
     }
 
-    // 加速下落 / Soft drop
+    // 加速下落（软降）/ Soft drop
     if (renderer_.getMoveDown() && Collision::canMove(board_, currentPiece_, 0, 1)) {
         currentPiece_.y++;
-        score_ += 1;  // 软降每格+1分 / Soft drop +1 per cell
+        score_ += 1;  // 软降每格+1分
         if (isLocking_) lockTimer_ = 0.0f;
     }
 
@@ -98,14 +100,14 @@ void Game::handleInput() {
         Piece original = currentPiece_;
         currentPiece_ = Collision::getRotatedPiece(board_, currentPiece_);
 
-        // 如果位置变了说明墙踢成功，否则检查是否只是旋转成功
-        // If position changed, wall kick succeeded; otherwise check if rotation alone succeeded
+        // 检查旋转是否实际成功
+        // Check if rotation actually succeeded
         bool positionChanged = (currentPiece_.x != original.x || currentPiece_.y != original.y);
         bool rotationChanged = (currentPiece_.rotation != original.rotation);
 
-        if (rotationChanged && !positionChanged) {
-            // 旋转了但位置没变，可能碰撞了，恢复原状
-            // Rotated but position unchanged, might have collision, restore
+        // 如果旋转了但位置没变且新位置无效，恢复原状
+        // If rotated but position unchanged and new position invalid, restore
+        if (rotationChanged && !positionChanged && Collision::check(board_, currentPiece_)) {
             currentPiece_ = original;
         }
 
@@ -116,7 +118,7 @@ void Game::handleInput() {
     if (renderer_.getHardDrop()) {
         while (Collision::canMove(board_, currentPiece_, 0, 1)) {
             currentPiece_.y++;
-            score_ += 2;  // 硬降每格+2分 / Hard drop +2 per cell
+            score_ += 2;  // 硬降每格+2分
         }
         placePiece();
     }
@@ -200,7 +202,7 @@ int Game::calculateScore(int lines) const {
 }
 
 // 等级计算：每1000分升一级，最高15级
-// Level calculation: +1 level per 1000 points, max level 15
+// Level: +1 per 1000 points, max level 15
 int Game::calculateLevel(int score) const {
     return std::min(15, score / 1000 + 1);
 }

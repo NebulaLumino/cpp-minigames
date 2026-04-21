@@ -1,12 +1,16 @@
 /**
+ * =============================================================================
  * @file renderer.cpp
  * @brief 渲染器实现 / Renderer Implementation
+ * =============================================================================
  *
  * 使用ASCII字符绘制游戏画面，支持颜色和终端自适应。
- * Uses ASCII characters to render the game, with color support and terminal adaptation.
+ * Uses ASCII characters to render the game with color support
+ * and terminal adaptation.
  *
- * @author NebulaLumino
- * @date 2026
+ * =============================================================================
+ * @author  NebulaLumino
+ * @date    2026
  */
 
 #include "renderer.h"
@@ -25,14 +29,8 @@ const char* BLOCK_GHOST = "{}";
 const char* VERT_LINE = "|";
 /** 水平边框线 / Horizontal border line */
 const char* HORIZ_LINE = "--";
-/** 角落字符（复用四角）/ Corner characters (reused for all corners) */
+/** 角落字符 / Corner character */
 const char* CORNER = "+";
-
-// ============================================================================
-// 颜色定义 / Color Definitions
-// ============================================================================
-// ncurses颜色对：(前景色, 背景色)
-// ncurses color pairs: (foreground, background)
 
 Renderer::Renderer()
     : isOpen_(true)
@@ -230,7 +228,7 @@ void Renderer::processEvents() {
             case KEY_UP:    rotate_ = true; break;
             case ' ':       hardDrop_ = true; break;
             case 'p':
-            case 'P':      pause_ = true; break;
+            case 'P':       pause_ = true; break;
             case 'q':
             case 'Q':
             case 27:        shouldClose_ = true; break;  // ESC键 / ESC key

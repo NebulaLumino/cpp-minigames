@@ -1,15 +1,15 @@
 /**
+ * =============================================================================
  * @file piece.cpp
  * @brief 方块类实现 / Piece Class Implementation
+ * =============================================================================
  *
- * 包含所有七种方块的旋转状态定义。
- * Contains rotation state definitions for all seven pieces.
+ * 包含所有七种方块的旋转状态定义，采用SRS（超级旋转系统）标准。
+ * Contains rotation state definitions for all seven pieces using SRS standard.
  *
- * 旋转系统采用SRS（超级旋转系统）标准。
- * Uses SRS (Super Rotation System) standard for rotation.
- *
- * @author NebulaLumino
- * @date 2026
+ * =============================================================================
+ * @author  NebulaLumino
+ * @date    2026
  */
 
 #include "piece.h"
@@ -19,23 +19,21 @@ std::array<std::array<int, 4>, 4> Piece::getShape() const {
     return PieceManager::getShape(type, rotation);
 }
 
-namespace PieceShapes {
-
 /**
+ * =============================================================================
  * @namespace PieceShapes
  * @brief 方块形状定义命名空间 / Piece Shapes Definition Namespace
+ * =============================================================================
  *
  * 每个方块有4种旋转状态（0-3），存储在4×4×4的三维数组中。
  * Each piece has 4 rotation states (0-3), stored in 4×4×4 3D arrays.
+ *
+ * 索引格式：[rotation][row][col]，值为1表示有方块，0表示空
+ * Index format: [rotation][row][col], value 1 = filled, 0 = empty
  */
+namespace PieceShapes {
 
-// ============================================================================
-// 旋转状态表 / Rotation State Tables
-// ============================================================================
-// 索引格式：[rotation][row][col]，值为1表示有方块，0表示空
-// Index format: [rotation][row][col], value 1 = filled, 0 = empty
-
-/** I方块旋转状态 / I Piece Rotation States */
+// I方块旋转状态 / I Piece Rotation States
 const int I_ROTATIONS[4][4][4] = {
     {{0,0,0,0},{1,1,1,1},{0,0,0,0},{0,0,0,0}},  // 0: 水平 / horizontal
     {{0,1,0,0},{0,1,0,0},{0,1,0,0},{0,1,0,0}},  // 1: 垂直 / vertical
@@ -43,7 +41,7 @@ const int I_ROTATIONS[4][4][4] = {
     {{0,1,0,0},{0,1,0,0},{0,1,0,0},{0,1,0,0}}   // 3: 垂直 / vertical
 };
 
-/** T方块旋转状态 / T Piece Rotation States */
+// T方块旋转状态 / T Piece Rotation States
 const int T_ROTATIONS[4][4][4] = {
     {{0,0,0,0},{0,1,0,0},{1,1,1,0},{0,0,0,0}},
     {{0,1,0,0},{0,1,1,0},{0,1,0,0},{0,0,0,0}},
@@ -51,7 +49,7 @@ const int T_ROTATIONS[4][4][4] = {
     {{0,1,0,0},{1,1,0,0},{0,1,0,0},{0,0,0,0}}
 };
 
-/** S方块旋转状态 / S Piece Rotation States */
+// S方块旋转状态 / S Piece Rotation States
 const int S_ROTATIONS[4][4][4] = {
     {{0,0,0,0},{0,1,1,0},{1,1,0,0},{0,0,0,0}},
     {{0,1,0,0},{0,1,1,0},{0,0,1,0},{0,0,0,0}},
@@ -59,7 +57,7 @@ const int S_ROTATIONS[4][4][4] = {
     {{1,0,0,0},{1,1,0,0},{0,1,0,0},{0,0,0,0}}
 };
 
-/** Z方块旋转状态 / Z Piece Rotation States */
+// Z方块旋转状态 / Z Piece Rotation States
 const int Z_ROTATIONS[4][4][4] = {
     {{0,0,0,0},{1,1,0,0},{0,1,1,0},{0,0,0,0}},
     {{0,0,1,0},{0,1,1,0},{0,1,0,0},{0,0,0,0}},
@@ -67,7 +65,7 @@ const int Z_ROTATIONS[4][4][4] = {
     {{0,1,0,0},{1,1,0,0},{1,0,0,0},{0,0,0,0}}
 };
 
-/** J方块旋转状态 / J Piece Rotation States */
+// J方块旋转状态 / J Piece Rotation States
 const int J_ROTATIONS[4][4][4] = {
     {{0,0,0,0},{1,0,0,0},{1,1,1,0},{0,0,0,0}},
     {{0,1,1,0},{0,1,0,0},{0,1,0,0},{0,0,0,0}},
@@ -75,7 +73,7 @@ const int J_ROTATIONS[4][4][4] = {
     {{0,1,0,0},{0,1,0,0},{1,1,0,0},{0,0,0,0}}
 };
 
-/** L方块旋转状态 / L Piece Rotation States */
+// L方块旋转状态 / L Piece Rotation States
 const int L_ROTATIONS[4][4][4] = {
     {{0,0,0,0},{0,0,1,0},{1,1,1,0},{0,0,0,0}},
     {{0,1,0,0},{0,1,0,0},{0,1,1,0},{0,0,0,0}},
@@ -83,7 +81,8 @@ const int L_ROTATIONS[4][4][4] = {
     {{1,1,0,0},{0,1,0,0},{0,1,0,0},{0,0,0,0}}
 };
 
-/** O方块旋转状态（全部相同，方块不旋转）/ O Piece Rotation States (all same, O doesn't rotate) */
+// O方块旋转状态（全部相同，O方块不旋转）
+// O Piece Rotation States (all same, O doesn't rotate)
 const int O_ROTATIONS[4][4][4] = {
     {{0,0,0,0},{0,1,1,0},{0,1,1,0},{0,0,0,0}},
     {{0,0,0,0},{0,1,1,0},{0,1,1,0},{0,0,0,0}},
@@ -92,10 +91,6 @@ const int O_ROTATIONS[4][4][4] = {
 };
 
 } // namespace PieceShapes
-
-// ============================================================================
-// 方块管理器实现 / Piece Manager Implementation
-// ============================================================================
 
 Piece PieceManager::createRandomPiece() {
     static std::mt19937 rng(std::random_device{}());
