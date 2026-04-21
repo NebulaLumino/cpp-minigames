@@ -65,7 +65,27 @@ public:
      */
     void run();
 
+    /**
+     * @brief 根据消除行数计算得分
+     * @brief Calculates score based on lines cleared
+     *
+     * @param lines 消除的行数 / Number of lines cleared
+     * @return 获得的分数 / Score earned
+     */
+    static int calculateScore(int lines);
+
+    /**
+     * @brief 根据总得分计算等级
+     * @brief Calculates level based on total score
+     *
+     * @param score 总得分 / Total score
+     * @return 当前等级 / Current level
+     */
+    static int calculateLevel(int score);
+
 private:
+    friend class GameTest;  // 允许测试类访问私有成员 / Allow test class to access private members
+
     /**
      * @brief 根据时间更新游戏状态
      * @brief Updates game state based on time
@@ -93,24 +113,6 @@ private:
      * @return 是否成功放置 / Whether placement succeeded
      */
     bool placePiece();
-
-    /**
-     * @brief 根据消除行数计算得分
-     * @brief Calculates score based on lines cleared
-     *
-     * @param lines 消除的行数 / Number of lines cleared
-     * @return 获得的分数 / Score earned
-     */
-    int calculateScore(int lines) const;
-
-    /**
-     * @brief 根据总得分计算等级
-     * @brief Calculates level based on total score
-     *
-     * @param score 总得分 / Total score
-     * @return 当前等级 / Current level
-     */
-    int calculateLevel(int score) const;
 
     Board board_;                 /**< 游戏棋盘 / Game board */
     Piece currentPiece_;          /**< 当前下落的方块 / Current falling piece */

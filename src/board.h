@@ -109,6 +109,7 @@ public:
     }
 
 private:
+    friend class BoardTest;  // 允许测试类访问私有成员 / Allow test class to access private members
     /** 棋盘网格：存储每个格子的颜色值(0=空, 1-7=方块类型) */
     /** Grid: stores cell colors (0=empty, 1-7=piece type) */
     std::array<std::array<int, BOARD_WIDTH>, BOARD_HEIGHT> grid_;

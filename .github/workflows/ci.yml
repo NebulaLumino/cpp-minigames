@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install ncurses
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libncurses5-dev libncursesw5-dev
+
+      - name: CMake configure
+        run: |
+          mkdir -p build
+          cd build
+          cmake ..
+
+      - name: Build main executable
+        run: |
+          cd build
+          make tetris
+
+      - name: Build test executable
+        run: |
+          cd build
+          make tetris_test
+
+      - name: Run tests
+        run: |
+          cd build
+          ctest --output-on-failure

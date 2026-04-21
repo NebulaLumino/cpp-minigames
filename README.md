@@ -76,15 +76,41 @@ make
 ```
 tetris/
 ├── CMakeLists.txt          # 构建配置 / Build configuration
+├── LICENSE                # MIT许可证 / MIT License
 ├── README.md               # 本文件 / This file
-└── src/
-    ├── main.cpp            # 入口点 / Entry point
-    ├── board.h/cpp         # 棋盘数据结构 / Board data structure
-    ├── piece.h/cpp         # 方块定义与旋转表 / Piece definitions & rotation tables
-    ├── collision.h/cpp    # 碰撞检测与SRS墙踢 / Collision detection & SRS wall kicks
-    ├── renderer.h/cpp     # ncurses渲染器 / ncurses renderer
-    └── game.h/cpp          # 游戏主逻辑 / Main game logic
+├── CONTRIBUTING.md         # 贡献指南 / Contributing guide
+├── .github/
+│   └── workflows/
+│       └── ci.yml         # GitHub Actions CI配置 / CI configuration
+├── src/
+│   ├── main.cpp            # 入口点 / Entry point
+│   ├── board.h/cpp         # 棋盘数据结构 / Board data structure
+│   ├── piece.h/cpp         # 方块定义与旋转表 / Piece definitions & rotation tables
+│   ├── collision.h/cpp    # 碰撞检测与SRS墙踢 / Collision detection & SRS wall kicks
+│   ├── renderer.h/cpp     # ncurses渲染器 / ncurses renderer
+│   └── game.h/cpp          # 游戏主逻辑 / Main game logic
+└── tests/
+    ├── BoardTest.cpp       # 棋盘类测试 / Board class tests
+    ├── CollisionTest.cpp   # 碰撞检测测试 / Collision tests
+    └── GameTest.cpp        # 游戏逻辑测试 / Game logic tests
 ```
+
+## Testing / 测试
+
+```bash
+# Build and run all tests
+cd build && cmake .. && make tetris_test && ./tetris_test
+
+# Run with ctest
+ctest --output-on-failure
+```
+
+**Test Coverage / 测试覆盖：**
+| Component | Tests | Coverage |
+|-----------|-------|----------|
+| Board | 16 | Collision, locking, line clearing, game over |
+| Collision | 10 | Movement, rotation, ghost piece |
+| Game | 8 | Scoring system, level calculation |
 
 ## Technical Details / 技术细节
 

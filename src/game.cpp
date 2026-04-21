@@ -205,7 +205,7 @@ bool Game::placePiece() {
 }
 
 // 经典俄罗斯方块计分规则 / Classic Tetris scoring rules
-int Game::calculateScore(int lines) const {
+int Game::calculateScore(int lines) {
     static const int LINE_SCORES[] = {
         0,     // 0行 / 0 lines
         100,   // 1行 / 1 line  (Single)
@@ -218,6 +218,6 @@ int Game::calculateScore(int lines) const {
 
 // 等级计算：每1000分升一级，最高15级
 // Level: +1 per 1000 points, max level 15
-int Game::calculateLevel(int score) const {
+int Game::calculateLevel(int score) {
     return std::min(15, score / 1000 + 1);
 }
