@@ -9,6 +9,7 @@
 |------|-------------|------|
 | [Tetris](./games/tetris/) | Classic block puzzle game | 经典俄罗斯方块 |
 | [Snake](./games/snake/) | Classic snake arcade game | 经典贪吃蛇 |
+| [Minesweeper](./games/minesweeper/) | Logic puzzle, find mines | 扫雷逻辑解谜 |
 
 ## Quick Start / 快速开始
 
