@@ -8,6 +8,7 @@
 | Game | Description | 说明 |
 |------|-------------|------|
 | [Tetris](./games/tetris/) | Classic block puzzle game | 经典俄罗斯方块 |
+| [Snake](./games/snake/) | Classic snake arcade game | 经典贪吃蛇 |
 
 ## Quick Start / 快速开始
 
