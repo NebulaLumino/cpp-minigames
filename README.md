@@ -13,6 +13,7 @@
 | [Sokoban](./games/sokoban/) | Warehouse puzzle, push boxes | 推箱子仓库解谜 |
 | [2048](./games/2048/) | Sliding tile puzzle, reach 2048 | 滑动拼图，达到2048 |
 | [Chess](./games/chess/) | Two-player strategy board game | 双人策略棋盘游戏 |
+| [Go](./games/go/) | Classic strategy board game, territory | 经典策略棋盘游戏，围地 |
 
 ## Quick Start / 快速开始
 
