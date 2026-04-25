@@ -11,6 +11,7 @@
 | [Snake](./games/snake/) | Classic snake arcade game | 经典贪吃蛇 |
 | [Minesweeper](./games/minesweeper/) | Logic puzzle, find mines | 扫雷逻辑解谜 |
 | [Sokoban](./games/sokoban/) | Warehouse puzzle, push boxes | 推箱子仓库解谜 |
+| [2048](./games/2048/) | Sliding tile puzzle, reach 2048 | 滑动拼图，达到2048 |
 
 ## Quick Start / 快速开始
 
