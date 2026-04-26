@@ -15,6 +15,13 @@
 | [Chess](./games/chess/) | Two-player strategy board game | 双人策略棋盘游戏 |
 | [Go](./games/go/) | Classic strategy board game, territory | 经典策略棋盘游戏，围地 |
 
+## AI Engines / AI引擎库
+
+| Library | Description | 说明 |
+|---------|-------------|------|
+| [chess-engine](./libraries/chess-engine/) | Header-only Chess AI with minimax + alpha-beta | 头文件库，极小极大搜索与Alpha-Beta剪枝 |
+| [go-engine](./libraries/go-engine/) | Header-only Go AI with MCTS | 头文件库，蒙特卡洛树搜索 |
+
 ## Quick Start / 快速开始
 
 ```bash
@@ -38,10 +45,25 @@ cpp-minigames/
 ├── README.md              # 本文件 / This file
 ├── LICENSE                # MIT许可证 / MIT License
 ├── games/
-│   └── tetris/            # 俄罗斯方块 / Tetris
-│       ├── CMakeLists.txt
-│       ├── src/           # 源代码 / Source code
-│       └── tests/         # 单元测试 / Unit tests
+│   ├── tetris/            # 俄罗斯方块 / Tetris
+│   ├── snake/             # 贪吃蛇 / Snake
+│   ├── minesweeper/       # 扫雷 / Minesweeper
+│   ├── sokoban/           # 推箱子 / Sokoban
+│   ├── 2048/              # 2048滑动拼图 / 2048
+│   ├── chess/             # 国际象棋 / Chess
+│   └── go/                # 围棋 / Go
+├── libraries/
+│   ├── chess-engine/      # 国际象棋AI引擎 / Chess AI Engine
+│   └── go-engine/         # 围棋AI引擎 / Go AI Engine
+└── .gitignore
+```
+
+Each project follows the same structure:
+```
+├── CMakeLists.txt         # 构建配置 / Build config
+├── README.md              # 双语文档 / Bilingual docs
+├── src/                   # 源代码 / Source code
+└── tests/                 # 单元测试 / Unit tests
 ```
 
 ## Requirements / 系统要求
