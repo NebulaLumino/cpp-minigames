@@ -1,2 +1,27 @@
+# Build artifacts / 构建产物
 build/
+build_test/
 */build/
+*_build/
+cmake-build-*/
+
+# CMake
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+*.cmake
+
+# Catch2 downloaded content
+_deps/
+
+# Executables
+*.exe
+*.out
+*.test
+
+# OS
+.DS_Store
+*.swp
+*.swo
+*~
